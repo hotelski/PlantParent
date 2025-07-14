@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {# Inherits common layout: navbar, footer, etc. #}
+
+{% block content %}
+<!-- Blog Posts Listing Page -->
+<div class="container my-5">
+    <!-- Page Heading and "New Post" button -->
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h1>Blog</h1>
+            {% if can_add_post %}
+                {# Only show "New Post" button to users with permission #}
+                <a href="{% url 'blog:post_create' %}" class="btn btn-success">
+                    <i class="fas fa-plus"></i> New Post
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Blog Post Cards -->
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-6 col-lg-4 mb-4"> {# Responsive grid: 2 per row on md, 3 per row on lg #}
+            <div class="card h-100"> {# Equal-height cards #}
+                <!-- Featured Image -->
+                <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+                <div class="card-body">
+                    <!-- Post Title -->
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <!-- Short Excerpt -->
+                    <p class="card-text">{{ post.excerpt }}</p>
+                    <!-- Read More Button -->
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-outline-success">Read More</a>
+
+                    <!-- Edit Button (if user has permission or is the author) -->
+                    {% if can_edit_all or post.author == user %}
+                    <a href="{% url 'blog:post_update' post.slug %}" class="btn btn-outline-primary">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    {% endif %}
+
+                    <!-- Pending Badge for unpublished posts -->
+                    {% if can_publish and not post.published %}
+                    <span class="badge bg-warning ms-2">Pending Approval</span>
+                    {% endif %}
+                </div>
+                <!-- Footer with metadata -->
+                <div class="card-footer text-muted">
+                    Posted on {{ post.created_at|date:"F j, Y" }} by {{ post.author.email }}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <!-- Fallback when no blog posts exist -->
+        <div class="col-12">
+            <div class="alert alert-info">No blog posts available.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

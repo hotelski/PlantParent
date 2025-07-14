@@ -1,0 +1,31 @@
+{% extends 'base.html' %} {# Inherit the layout, navbar, footer, and blocks from base.html #}
+{% load crispy_forms_tags %} {# Load the crispy forms tag library for rendering the form nicely #}
+
+{% block content %}
+<!-- Login Page Content -->
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <!-- Bootstrap card for the login form -->
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <!-- Card header with a green background -->
+                <h4 class="mb-0">Login</h4>
+            </div>
+            <div class="card-body">
+                <!-- Begin login form -->
+                <form method="post">
+                    {% csrf_token %} {# Security token for POST form to prevent CSRF attacks #}
+                    {{ form|crispy }} {# Render the form using crispy-forms for Bootstrap styling #}
+                    <button type="submit" class="btn btn-success w-100">Login</button>
+                    {# Full-width green submit button #}
+                </form>
+                <!-- Additional links under the form -->
+                <div class="mt-3 text-center">
+                    <p>Don't have an account? <a href="{% url 'accounts:register' %}">Register here</a></p>
+                    <p><a href="#">Forgot your password?</a></p> {# This could be linked to a password reset view #}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

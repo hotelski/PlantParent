@@ -1,0 +1,91 @@
+{% extends 'base.html' %} {# Inherits the global layout: header, footer, etc. #}
+
+{% block content %}
+<!-- Blog Post Detail Page -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto"> {# Centers the post and limits width on large screens #}
+            <article>
+                <!-- Blog Post Title -->
+                <h1>{{ post.title }}</h1>
+                <!-- Featured Image -->
+                <img src="{{ post.featured_image.url }}" class="img-fluid mb-4" alt="{{ post.title }}">
+                <!-- Metadata: date, author, and status -->
+                <div class="mb-4 text-muted">
+                    Posted on {{ post.created_at|date:"F j, Y" }} by {{ post.author.email|default:"Unknown" }}
+                    <div class="mb-3">
+                        <!-- Reaction Buttons -->
+                        <small>
+                            <i class="fas fa-thumbs-up text-success me-1 reaction-btn"
+                               data-action="like"
+                               data-post="{{ post.id }}"
+                               style="cursor:pointer;"></i>
+                            <span id="like-count">{{ like_count }}</span>
+
+                            &nbsp;&nbsp;
+
+                            <i class="fas fa-thumbs-down text-danger me-1 reaction-btn"
+                               data-action="dislike"
+                               data-post="{{ post.id }}"
+                               style="cursor:pointer;"></i>
+                            <span id="dislike-count">{{ dislike_count }}</span>
+                        </small>
+                    </div>
+                    {% if not post.published %}<span class="badge bg-warning ms-2">Pending Approval</span>{% endif %}
+                </div>
+                <!-- Blog Content -->
+                <div class="content">
+                    {{ post.content|linebreaks }}
+                    {# Converts line breaks into HTML paragraphs and <br> tags #}
+                </div>
+            </article>
+
+              <!-- Edit Button (Visible only to users with permission) -->
+              {% if can_edit_all %}
+                    <a href="{% url 'blog:post_update' post.slug %}" class="btn btn-outline-primary">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    document.querySelectorAll('.reaction-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const postId = this.dataset.post;
+            const action = this.dataset.action;
+
+            fetch("{% url 'blog:post_react' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({ post_id: postId, action: action }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('like-count').textContent = data.likes;
+                    document.getElementById('dislike-count').textContent = data.dislikes;
+                } else {
+                    alert("Something went wrong.");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Network error or CSRF issue.");
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

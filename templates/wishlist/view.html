@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{# This template extends the base layout, which includes the header, footer, and common page structure #}
+
+{# Begin the content block which will be inserted into the base template #}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>My Wishlist</h1>
+        <hr>
+    </div>
+</div>
+
+{# Check if the wishlist contains any items #}
+{% if wishlist.items.count > 0 %}
+<div class="row">
+    {% for item in wishlist.items.all %} {# Loop through each item in the wishlist #}
+        <div class="col-lg-3 col-md-4 col-6 mb-4"> {# Responsive grid column for each product card #}
+            <div class="card h-100"> {# Card component for the wishlist item #}
+                <a href="{{ item.product.get_absolute_url }}">
+                     {# Clickable product image that links to the product detail page #}
+                    <img class="card-img-top" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {# Product name linking to its detail page #}
+                        <a href="{{ item.product.get_absolute_url }}" class="text-success">{{ item.product.name }}</a>
+                    </h5>
+                    <h6>€{{ item.product.price }}</h6> {# Product price #}
+                    {% if item.product.stock > 0 %}
+                        {# Stock availability message in green if in stock #}
+                        <p class="text-success small">In Stock</p>
+                    {% else %}
+                        {# Stock availability message in red if out of stock #}
+                        <p class="text-danger small">Out of Stock</p>
+                    {% endif %}
+                </div>
+                {# Footer section with action buttons #}
+                <div class="card-footer bg-white">
+                    {# Form to remove the product from the wishlist #}
+                    <form action="{% url 'wishlist:remove' item.product.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-trash"></i> {# Trash icon button to remove item #}
+                        </button>
+                    </form>
+                    {% if item.product.stock > 0 %}
+                        {# Form to move the item to the cart if it is in stock #}
+                        <form action="{% url 'wishlist:move_to_cart' item.product.id %}" method="post" class="d-inline ms-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fas fa-cart-plus"></i> {# Add-to-cart icon button #}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% else %} {# If the wishlist is empty, show an alert message with a link to browse products #}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info">
+            Your wishlist is empty. <a href="{% url 'products:list' %}" class="alert-link">Browse our products</a> to add items.
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %} {# End of content block #}

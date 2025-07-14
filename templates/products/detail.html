@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{# This extends the base layout which includes navigation, styling, and scripts #}
+{% load crispy_forms_tags %}
+{# Loads crispy-forms filters if used in the form (not strictly necessary here) #}
+
+{% block content %}
+<!-- Begin main content block -->
+<div class="row">
+    <!-- Product Image Section -->
+    <div class="col-md-6">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded">
+    </div>
+    <!-- Product Info Section -->
+    <div class="col-md-6">
+        <h1>{{ product.name }}</h1>
+        <h3 class="text-success">€{{ product.price }}</h3>
+        <p class="text-muted">Category: <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></p>
+        
+        {% if product.stock > 0 %}
+            <!-- Show form to add to cart if in stock -->
+            <p class="text-success">In Stock ({{ product.stock }} available)</p>
+            <!-- Add to Cart Form -->
+            <form action="{% url 'cart:add' product.id %}" method="post" class="mb-3">
+                {% csrf_token %}
+                <div class="input-group mb-3" style="max-width: 200px;">
+                    <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control">
+                    <button type="submit" class="btn btn-success">Add to Cart</button>
+                </div>
+            </form>
+            <!-- Add to Wishlist Form -->
+            <form action="{% url 'wishlist:add' product.id %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">
+                    <i class="fas fa-heart"></i> Add to Wishlist
+                </button>
+            </form>
+        {% else %}
+            <!-- Show out-of-stock message -->
+            <p class="text-danger">Out of Stock</p>
+        {% endif %}
+        
+        <hr>
+        <h4>Description</h4>
+        <p>{{ product.description }}</p>
+    </div>
+</div>
+
+<!-- Customer Reviews Section -->
+<div class="row mt-5">
+    <div class="col-12">
+        <h3>Customer Reviews</h3>
+        <hr>
+        
+        {% if request.user.is_authenticated %}
+            {% if not user_review %}
+                <!-- Show "Write a Review" button if user hasn't reviewed yet -->
+                <a href="{% url 'reviews:add' product.slug %}" class="btn btn-success mb-4">
+                    Write a Review
+                </a>
+            {% endif %}
+        {% else %}
+            <!-- Prompt to log in if user is anonymous -->
+            <p>Please <a href="{% url 'accounts:login' %}">login</a> to write a review.</p>
+        {% endif %}
+        
+        {% for review in product.reviews.all %}
+            {% if review.approved or review.user == request.user %}
+                <!-- Review Card -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5>{{ review.user.email }}</h5>
+                            <!-- Render star rating -->
+                            <div class="text-warning">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= review.rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <p class="text-muted small">{{ review.created_at|date:"F j, Y" }}</p>
+                        <p>{{ review.comment }}</p>
+                        
+                        {% if review.user == request.user %}
+                            <!-- Show edit/delete buttons if current user is the review author -->
+                            <div class="mt-2">
+                                <a href="{% url 'reviews:update' product.slug review.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                <a href="{% url 'reviews:delete' product.slug review.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>No reviews yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Related Products Section -->
+{% if related_products %}
+<div class="row mt-5">
+    <div class="col-12">
+        <h3>You May Also Like</h3>
+        <hr>
+        <div class="row">
+            {% for product in related_products %}
+                <div class="col-lg-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                        <!-- Product image -->
+                        <a href="{{ product.get_absolute_url }}">
+                            <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ product.get_absolute_url }}" class="text-success">{{ product.name }}</a>
+                            </h5>
+                            <h6>€{{ product.price }}</h6>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

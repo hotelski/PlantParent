@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{# Extends the main base template, which includes the overall layout and styling (header, navbar, footer, etc.) #}
+{% load crispy_forms_tags %}
+{# Loads the crispy_forms template tag library to render Django forms using the Crispy Forms layout engine #}
+
+{# Starts the content block that will be injected into the base.html template #}
+{% block content %}
+<div class="row justify-content-center"> {# Bootstrap row that centers its content horizontally #}
+    <div class="col-md-6"> {# Creates a Bootstrap column that takes up 6 of 12 columns on medium+ screens #}
+        <div class="card"> {# Bootstrap card component for visual styling of the form section #}
+            <div class="card-header bg-success text-white"> {# Card header with green background and white text #}
+                <h4 class="mb-0">Update Your Review</h4> {# Title of the form section #}
+            </div>
+            <div class="card-body"> {# Card body that wraps the actual form #}
+                {# Displays the name of the product that this review is associated with #}
+                <h5>Review for: {{ product.name }}</h5>
+                <form method="post"> {# Start of the form. POST is used to securely submit data to the server #}
+                    {% csrf_token %} {# Adds a CSRF token for security against cross-site request forgery #}
+                    {# Renders the form using Crispy Forms for better layout and Bootstrap integration #}
+                    {{ form|crispy }}
+                    {# Submit button to update the review #}
+                    <button type="submit" class="btn btn-success">Update Review</button>
+                    {# Cancel button that redirects the user back to the product's detail page without saving changes #}
+                    <a href="{{ product.get_absolute_url }}" class="btn btn-outline-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

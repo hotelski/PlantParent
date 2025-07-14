@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{# This template extends the base layout, which includes the navbar, footer, and general styling. #}
+
+{% block content %}
+<!-- Center the content on the page -->
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <!-- Success message card -->
+        <div class="card">
+            <div class="card-body">
+                <!-- Green success icon -->
+                <div class="mb-4">
+                    <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+                </div>
+                <!-- Main heading -->
+                <h1 class="mb-3">Thank You For Your Order!</h1>
+                <!-- Confirmation message -->
+                <p class="lead">Your order has been placed successfully.</p>
+                <!-- Email confirmation note -->
+                <p>We've sent a confirmation email to <strong>{{ request.user.email }}</strong>.</p>
+                <!-- Order ID from session -->
+                <p>Your order number is <strong>#{{ request.session.last_order_id }}</strong>.</p>
+                <!-- Action buttons -->
+                <div class="mt-4">
+                    <a href="{% url 'orders:history' %}" class="btn btn-success me-2">View Order History</a>
+                    <a href="{% url 'products:list' %}" class="btn btn-outline-secondary">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

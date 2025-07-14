@@ -1,0 +1,107 @@
+{% extends 'base.html' %} {# Inherit the global layout: navbar, footer, etc. #}
+
+{% block content %}
+<!-- Shopping Cart Page -->
+<div class="row">
+    <div class="col-12">
+        <h1>Shopping Cart</h1>
+        <hr>
+    </div>
+</div>
+
+{% if cart.items.count > 0 %}
+<!-- If the cart has items -->
+<div class="row">
+    <!-- Left Column: Cart Items Table -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th></th> {# Empty header for actions like remove #}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.items.all %}
+                            <tr>
+                                <!-- Product Image and Link -->
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="50" class="me-3">
+                                        <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+                                    </div>
+                                </td>
+                                <!-- Unit Price -->
+                                <td>€{{ item.product.price }}</td>
+                                <!-- Quantity Update Form -->
+                                <td>
+                                    <form action="{% url 'cart:update' item.id %}" method="post" class="d-flex">
+                                        {% csrf_token %}
+                                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" class="form-control form-control-sm" style="width: 70px;">
+                                        <button type="submit" class="btn btn-sm btn-outline-success ms-2">Update</button>
+                                    </form>
+                                </td>
+                                <!-- Total Price for This Item -->
+                                <td>€{{ item.total_price }}</td>
+                                <!-- Remove Item from Cart -->
+                                <td>
+                                    <form action="{% url 'cart:remove' item.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Order Summary -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Order Summary</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>Subtotal</th>
+                        <td>€{{ cart.total_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Shipping</th>
+                        <td>€5.00</td>
+                    </tr>
+                    <tr class="fw-bold">
+                        <th>Total</th>
+                        <td>€{{ cart.total_price|add:5 }}</td>
+                    </tr>
+                </table>
+                <!-- Checkout Button -->
+                <a href="{% url 'orders:checkout' %}" class="btn btn-success w-100">Proceed to Checkout</a>
+                <!-- Continue Shopping Button -->
+                <a href="{% url 'products:list' %}" class="btn btn-outline-secondary w-100 mt-2">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<!-- If the cart is empty -->
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info">
+            Your cart is empty. <a href="{% url 'products:list' %}" class="alert-link">Continue shopping</a>.
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

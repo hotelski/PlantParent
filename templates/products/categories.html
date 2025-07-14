@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{# This template extends the base layout, which includes the main HTML structure, navbar, and footer. #}
+
+{% block content %}
+<!-- Main section starts -->
+<!-- Header row -->
+<div class="row">
+    <div class="col-12">
+        <h1>Categories</h1>
+        <hr>
+    </div>
+</div>
+<!-- Category cards grid -->
+<div class="row">
+    {% for category in categories %}
+        <!-- Each category is displayed in a Bootstrap column (1/3 of the row) -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {# If the category has an image, show it at the top of the card #}
+                {% if category.image %}
+                    <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <!-- Display the category name -->
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <!-- Show a short preview of the category description (first 20 words) -->
+                    <p class="card-text">{{ category.description|truncatewords:20 }}</p>
+                    <!-- Button linking to the category's product listing page -->
+                    <a href="{{ category.get_absolute_url }}" class="btn btn-success">View Products</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

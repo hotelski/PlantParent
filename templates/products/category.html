@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{# Inherits the general layout from the base.html file, which includes navbar, footer, etc. #}
+
+{% block title %}{{ category.name }} - PlantParent{% endblock %}
+{# Sets the page title dynamically to match the category name #}
+
+{% block content %}
+<!-- Main content block -->
+<!-- Category Heading and Description -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h1>{{ category.name }}</h1>
+        {% if category.description %}<p>{{ category.description }}</p>{% endif %}
+        <hr>
+    </div>
+</div>
+
+<!-- Product Cards Grid -->
+<div class="row">
+    {% for product in products %}
+        <div class="col-lg-3 col-md-4 col-6 mb-4">
+            <div class="card h-100">
+                <!-- Product image with link to product detail -->
+                <a href="{{ product.get_absolute_url }}">
+                    <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}">
+                </a>
+                <div class="card-body">
+                    <!-- Product name (linked to detail page) -->
+                    <h5 class="card-title">
+                        <a href="{{ product.get_absolute_url }}" class="text-success">{{ product.name }}</a>
+                    </h5>
+                    <!-- Product price -->
+                    <h6>€{{ product.price }}</h6>
+                    <!-- Stock availability -->
+                    {% if product.stock > 0 %}
+                        <p class="text-success small">In Stock</p>
+                    {% else %}
+                        <p class="text-danger small">Out of Stock</p>
+                    {% endif %}
+                </div>
+                <!-- Add to cart and wishlist buttons -->
+                <div class="card-footer bg-white">
+                    <!-- Add to cart form -->
+                    <form action="{% url 'cart:add' product.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
+                    </form>
+                    <!-- Add to wishlist form -->
+                    <form action="{% url 'wishlist:add' product.id %}" method="post" class="d-inline ms-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <!-- If no products are found in the category -->
+        <div class="col-12">
+            <div class="alert alert-info">No products found in this category.</div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination (if enabled) -->
+{% if is_paginated %}
+<!-- Placeholder for pagination logic; typically you'd include pagination controls here. -->
+{% endif %}
+{% endblock %}

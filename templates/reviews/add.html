@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{# Inherit from the base layout, which includes common elements like navbar and footer #}
+{% load crispy_forms_tags %}
+{# Load crispy forms template tags to render Django forms nicely #}
+
+{# Begin content block that will replace the content section in base.html #}
+{% block content %}
+<!-- Centered row for the review form -->
+<div class="row justify-content-center">
+    <div class="col-md-6"> {# Use 6 columns on medium and larger screens, centered horizontally #}
+        <div class="card"> {# Bootstrap card to wrap the review form nicely #}
+            <!-- Card header with title -->
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Write a Review</h4> {# Header text for the form #}
+            </div>
+            <!-- Card body containing the form -->
+            <div class="card-body">
+                <h5>Review for: {{ product.name }}</h5> {# Show the name of the product being reviewed #}
+                <form method="post"> {# Review form submitted using POST method #}
+                    {% csrf_token %} {# CSRF token for security to prevent cross-site attacks #}
+                    {{ form|crispy }} {# Render the form using crispy-forms styling #}
+                    <!-- Submit and cancel buttons -->
+                    {# Submit the review #}
+                    <button type="submit" class="btn btn-success">Submit Review</button>
+                    {# Cancel button returns to product detail page #}
+                    <a href="{{ product.get_absolute_url }}" class="btn btn-outline-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {# End of content block #}

@@ -1,0 +1,163 @@
+{% extends 'base.html' %} {# Inherit global layout from base template #}
+{% load crispy_forms_tags %} {# Load crispy-forms for pretty form rendering #}
+
+{% block content %}
+<!-- Profile Update Page -->
+<div class="row">
+    <div class="col-md-8 mx-auto"> {# Centered card container #}
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">My Profile</h4>
+            </div>
+            <div class="card-body">
+                <!-- Display the current profile picture or default avatar -->
+                {% if user.profile_picture %}
+                <div class="text-center mb-4">
+                    <img src="{{ user.profile_picture.url }}" 
+                         alt="Current Profile Picture" 
+                         class="img-thumbnail rounded-circle" 
+                         style="width: 120px; height: 120px; object-fit: cover;">
+                    <p class="text-muted mt-2 small">Current Profile Picture</p>
+                </div>
+                {% else %}
+                <div class="text-center mb-4">
+                    <img src="/static/images/default-avatar.png" 
+                         alt="Default Avatar" 
+                         class="img-thumbnail rounded-circle" 
+                         style="width: 120px; height: 120px; object-fit: cover;">
+                    <p class="text-muted mt-2 small">No profile picture uploaded</p>
+                </div>
+                {% endif %}
+
+                <!-- Begin Profile Update Form -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {# Show global form errors if any #}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Profile Picture Field (customized layout) -->
+                    <div class="mb-3">
+                        <label for="{{ form.profile_picture.id_for_label }}" class="form-label">
+                            {{ form.profile_picture.label }}
+                        </label>
+                        {{ form.profile_picture }}
+                        {% if form.profile_picture.help_text %}
+                            <div class="form-text">{{ form.profile_picture.help_text }}</div>
+                        {% endif %}
+                        {% if form.profile_picture.errors %}
+                            <div class="text-danger small">
+                                {{ form.profile_picture.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Render user info fields using crispy -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.first_name|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.last_name|as_crispy_field }}
+                        </div>
+                    </div>
+
+                    {{ form.phone|as_crispy_field }}
+                    {{ form.address|as_crispy_field }}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.city|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.postal_code|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    {{ form.country|as_crispy_field }}
+                    {{ form.receive_newsletter|as_crispy_field }}
+
+                    <!-- Submit and Cancel Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{% url 'accounts:profile' %}" class="btn btn-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Update Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Profile Picture Preview and Validation Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const profilePictureInput = document.getElementById('{{ form.profile_picture.id_for_label }}');
+    
+    if (profilePictureInput) {
+        profilePictureInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Validate file size (1MB = 1048576 bytes)
+                if (file.size > 1048576) {
+                    alert('File size must be less than 1MB');
+                    this.value = '';
+                    return;
+                }
+                
+                // Validate file type
+                // Allowed formats: JPG, PNG, GIF
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Please select a valid image file (JPG, PNG, or GIF)');
+                    this.value = '';
+                    return;
+                }
+                
+                // Show preview of the uploaded image
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const existingImg = document.querySelector('.img-thumbnail');
+                    if (existingImg) {
+                        existingImg.src = e.target.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+});
+</script>
+
+<!--  Inline Styles for Profile Upload -->
+<style>
+/* Style for the file input */
+.form-control[type="file"] {
+    border: 2px dashed #dee2e6;
+    padding: 15px;
+    text-align: center;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.form-control[type="file"]:hover {
+    border-color: #28a745;
+    background-color: #f0f8f0;
+}
+
+/* Style for image thumbnail preview */
+.img-thumbnail {
+    border: 3px solid #28a745;
+    transition: all 0.3s ease;
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.05);
+}
+</style>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{# Inherit layout from the base template (includes navbar, footer, etc.) #}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-12">
+        <h1>Order #{{ order.id }}</h1>
+        <p class="text-muted">Placed on {{ order.created_at|date:"F j, Y" }}</p>
+        <hr>
+    </div>
+</div>
+
+<!-- Order Details Section -->
+<div class="row">
+    <!-- Left Column: Order Items Table -->
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Order Items</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                            <tr>
+                                <!-- Link to the product detail page -->
+                                <td>
+                                    <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+                                </td>
+                                <td>€{{ item.price }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>€{{ item.total_price }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <!-- Total price excluding shipping -->
+                        <tr>
+                            <th colspan="3">Subtotal</th>
+                            <td>€{{ order.total_paid|add:-5 }}</td>
+                        </tr>
+                        <!-- Fixed shipping fee (hardcoded as €5.00) -->
+                        <tr>
+                            <th colspan="3">Shipping</th>
+                            <td>€5.00</td>
+                        </tr>
+                        <!-- Total paid -->
+                        <tr class="fw-bold">
+                            <th colspan="3">Total</th>
+                            <td>€{{ order.total_paid }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Shipping & Status -->
+    <div class="col-md-4">
+        <!-- Shipping Info Card -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Shipping Information</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    {{ order.shipping_address }}<br>
+                    {{ order.shipping_city }}<br>
+                    {{ order.shipping_postal_code }}<br>
+                    {{ order.shipping_country }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Order Status Card -->
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Order Status</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <strong>Status:</strong>
+                    <span class="badge 
+                        {% if order.status == 'delivered' %}bg-success
+                        {% elif order.status == 'cancelled' %}bg-danger
+                        {% else %}bg-warning text-dark{% endif %}">
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

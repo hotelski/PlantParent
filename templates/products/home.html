@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+{# Extends the base layout which includes navbar, footer, Bootstrap, JS, etc. #}
+
+{% block content %}
+<!-- Start of main page content -->
+<!-- Hero Section -->
+<div class="hero-section bg-light py-4 mb-2">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-success">Welcome to PlantParent,</h1>
+        <p class="lead fs-4">where plants are more than just <i>décor.</i></p>
+    </div>
+</div>
+
+<!-- Video Section with Button at Bottom -->
+<div class="position-relative mb-3">
+    <video class="w-100" autoplay muted loop playsinline>
+        <source src="https://cdn.shopify.com/videos/c/o/v/d542589c9b8b47ba849e399f2749f604.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Button centered at bottom -->
+    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4 text-center">
+        <a href="{% url 'products:list' %}" class="btn btn-success btn-lg shadow">
+            Shop Now
+        </a>
+    </div>
+</div>
+
+<!-- Featured Products Section -->
+<div class="container mb-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-success">Featured Plants</h2>
+            <hr>
+        </div>
+    </div>
+    
+    {% if featured_products %}
+        <div class="row">
+            {% for product in featured_products %}
+                <div class="col-lg-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                        <!-- Product image -->
+                        <a href="{{ product.get_absolute_url }}">
+                            <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ product.get_absolute_url }}" class="text-success">{{ product.name }}</a>
+                            </h5>
+                            <h6>€{{ product.price }}</h6>
+                        </div>
+                        <!-- Action buttons: add to cart & wishlist -->
+                        <div class="card-footer bg-white">
+                            <form action="{% url 'cart:add' product.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </form>
+                            <form action="{% url 'wishlist:add' product.id %}" method="post" class="d-inline ms-2">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- View all products link -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="{% url 'products:list' %}" class="btn btn-outline-success">View All Products</a>
+            </div>
+        </div>
+    {% else %}
+        <!-- Message shown when there are no featured products -->
+        <div class="alert alert-info">No featured products available at the moment.</div>
+    {% endif %}
+    <br>
+        <!-- Plant Image Carousel -->
+    <div class="container plant-carousel">
+        <div id="plantCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- Carousel Indicators -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#plantCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#plantCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#plantCarousel" data-bs-slide-to="2"></button>
+                <button type="button" data-bs-target="#plantCarousel" data-bs-slide-to="3"></button>
+            </div>
+            <!-- Carousel Slides -->
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <a href="http://127.0.0.1:8000/blog/growing-lavender-at-home-everything-you-need-to-know/">
+                    <img src="https://areon.com/storage/7724/conversions/areon-LAVENDER-thumb.webp" class="d-block w-100" alt="Indoor Plants">
+                    </a>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Growing Lavender at Home</h5>
+                        <p>everything you need to know</p>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <a href="http://127.0.0.1:8000/blog/anthurium-a-guide-to-proper-cultivation/">
+                    <img src="https://cdn.mos.cms.futurecdn.net/bYTtq3PGVcfiVwXjQTtDqa.jpg" class="d-block w-100" alt="Succulents">
+                    </a>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Anthurium Andraeanum</h5>
+                        <p>guide to proper cultivation</p>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <a href="http://127.0.0.1:8000/blog/what-is-moss/">
+                    <img src="https://airplantsbg.com/wp-content/uploads/2019/01/moss2.jpg" class="d-block w-100" alt="Rare Plants">
+                    </a>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>What is Moss?</h5>
+                        <p>everything you need to know about the new trend</p>
+                    </div>
+                </div>
+                <!-- Slide 4 -->
+                <div class="carousel-item">
+                    <a href="http://127.0.0.1:8000/blog/jasmine-cultivation-types-and-more/">
+                    <img src="https://airplantsbg.com/wp-content/uploads/2025/06/%D0%9F%D0%A0%D0%95%D0%9E%D0%91%D0%A0%D0%90%D0%97%D0%95%D0%9D%D0%90-17.png" class="d-block w-100" alt="Plant Care">
+                    </a>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Jasmine</h5>
+                        <p>cultivation, types and more</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#plantCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#plantCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- About Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <!-- About Text -->
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="text-success">Behind The Brand</h2>
+                <p>Imagine opening a heavy door and stepping into a lush, vibrant garden-alive, intentional, and perfectly cared for, as if nature itself tended to every detail.</p>
+                <p>That feeling is what we aim to bring into every home.</p>
+                <p>At PlantParent, we specialize in <b>rare and unique houseplants</b> you won’t find at your local garden center. Our mission is to help people connect with exceptional plants and provide the guidance and tools needed to help them thrive.</p>
+                <p>We believe greenery should be <b>easy, inspiring, and personal</b>. With every plant, you’re not just decorating - you’re creating a living space full of life, oxygen, and beauty.</p>
+                <p><b>PlantParent – grow your world.</b></p>
+                <a href="#" class="btn btn-success mt-2">Learn More</a>
+            </div>
+            <!-- About Image -->
+           <div class="col-lg-6 text-center">
+    <img src="https://assets.vogue.com/photos/5c8ff76a65c8fa2d0a921559/master/w_1600%2Cc_limit/00-story-image-boys-with-plants-book.jpg" alt="Rare houseplants from PlantParent" class="img-fluid rounded shadow"
+                     style="max-width: 100%; height: auto;">
+</div>
+        </div>
+    </div>
+</div>
+
+<!-- Site Statistics Redesigned -->
+<div class="bg-white py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <hr class="w-25 mx-auto mt-0 mb-2">
+            <h2 class="text-success fw-bold">Our Growing Community</h2>
+            <p class="text-muted">A quick glance at our vibrant ecosystem 🌿</p>
+        </div>
+        <div class="row g-4">
+            {% comment %} Loop through a list of stat dictionaries if desired {% endcomment %}
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-sm border-0 text-center py-4 h-100">
+                    <div class="card-body">
+                        <i class="fas fa-users fa-2x text-success mb-2"></i>
+                        <h3 class="text-success counter" data-count="{{ stats.users }}">0</h3>
+                        <p class="text-muted mb-0">Users</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-sm border-0 text-center py-4 h-100">
+                    <div class="card-body">
+                        <i class="fas fa-blog fa-2x text-success mb-2"></i>
+                        <h3 class="text-success counter" data-count="{{ stats.blog_posts }}">0</h3>
+                        <p class="text-muted mb-0">Blog Posts</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-sm border-0 text-center py-4 h-100">
+                    <div class="card-body">
+                        <i class="fas fa-comments fa-2x text-success mb-2"></i>
+                        <h3 class="text-success counter" data-count="{{ stats.reviews }}">0</h3>
+                        <p class="text-muted mb-0">Reviews</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-sm border-0 text-center py-4 h-100">
+                    <div class="card-body">
+                        <i class="fas fa-seedling fa-2x text-success mb-2"></i>
+                        <h3 class="text-success counter" data-count="{{ stats.products }}">0</h3>
+                        <p class="text-muted mb-0">Products</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-sm border-0 text-center py-4 h-100">
+                    <div class="card-body">
+                        <i class="fas fa-th-list fa-2x text-success mb-2"></i>
+                        <h3 class="text-success counter" data-count="{{ stats.categories }}">0</h3>
+                        <p class="text-muted mb-0">Categories</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-sm border-0 text-center py-4 h-100">
+                    <div class="card-body">
+                        <i class="fas fa-thumbs-up fa-2x text-success mb-2"></i>
+                        <h3 class="text-success counter" data-count="{{ stats.likes }}">0</h3>
+                        <p class="text-muted mb-0">Likes</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-sm border-0 text-center py-4 h-100">
+                    <div class="card-body">
+                        <i class="fas fa-thumbs-down fa-2x text-danger mb-2"></i>
+                        <h3 class="text-danger counter" data-count="{{ stats.dislikes }}">0</h3>
+                        <p class="text-muted mb-0">Dislikes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New custom counter: Orders -->
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-sm border-0 text-center py-4 h-100">
+                    <div class="card-body">
+                        <i class="fas fa-shopping-basket fa-2x text-success mb-2"></i>
+                        <h3 class="text-success counter" data-count="{{ stats.orders }}">0</h3>
+                        <p class="text-muted mb-0">Orders</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Subscribe Section on Animated Background -->
+<div class="subscribe-section position-relative text-white">
+  <!-- Background GIF -->
+  <img src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/0c413654263035.595401c7d47e2.gif"
+       alt="Animated Nature Background"
+       class="subscribe-bg-img">
+
+  <!-- Overlay Content -->
+  <div class="subscribe-overlay container text-center py-5 position-relative">
+    <h2 class="fw-bold mb-3" >Stay Connected with Nature 🌿</h2>
+    <p class="mb-4">Subscribe to get plant care tips, updates, and exclusive deals</p>
+
+    <form class="d-flex justify-content-center flex-column flex-md-row gap-2 align-items-center">
+      <input type="email" name="email" class="form-control w-100 w-md-auto" placeholder="Enter your email" required
+             style="max-width: 300px;">
+      <button type="submit" class="btn btn-success">Become a PlantParent</button>
+    </form>
+  </div>
+</div>
+
+    <style>.subscribe-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.subscribe-bg-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 0.9;
+    }
+
+
+.subscribe-overlay {
+  z-index: 2;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.4); /* translucent white */
+  backdrop-filter: blur(4px);
+  border-top: 2px solid #28a745;
+  border-bottom: 2px solid #28a745;
+  border-radius: 8px;
+  margin: 60px auto;
+  max-width: 700px;
+  padding: 3rem 2rem;
+}
+
+.subscribe-section input.form-control {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  border: 1px solid #28a745;
+  box-shadow: none;
+}
+
+.subscribe-section button.btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+}
+
+  .subscribe-overlay h2,
+  .subscribe-overlay p {
+    color: #426f34;
+}
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-count');
+                const count = +counter.innerText;
+                const speed = 200; // smaller = faster
+
+                const increment = Math.ceil(target / speed);
+
+                if (count < target) {
+                    counter.innerText = count + increment;
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+
+            updateCount();
+        });
+    });
+</script>
+{% endblock %}

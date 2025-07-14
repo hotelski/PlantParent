@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{# Inherit from the base.html template which contains the common layout (navbar, footer, etc.) #}
+
+{# Start the content block to inject this page's content into the base layout #}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6"> {# Use a 6-column wide container on medium+ screens, centered horizontally #}
+        <div class="card"> {# Use a Bootstrap card to visually group the content #}
+            <!-- Card Header -->
+            <div class="card-header bg-danger text-white">
+                {# Display the title of the page with a red background to emphasize danger #}
+                <h4 class="mb-0">Delete Review</h4>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                {# Confirmation message including the name of the product #}
+                <h5>Are you sure you want to delete your review for {{ product.name }}?</h5>
+                {# Alert box warning the user that deletion is permanent #}
+                <div class="alert alert-warning">
+                    <strong>Warning:</strong> This action cannot be undone.
+                </div>
+                <form method="post">
+                    {% csrf_token %} {# Include a CSRF token to protect against cross-site request forgery #}
+                    {# Submit button styled in red to match the danger theme #}
+                    <button type="submit" class="btn btn-danger">Delete Review</button>
+                    {# Cancel button returns the user to the product detail page without deleting #}
+                    <a href="{{ product.get_absolute_url }}" class="btn btn-outline-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {# End of content block #}

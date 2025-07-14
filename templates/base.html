@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <!-- Basic metadata for encoding and responsive behavior -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Dynamic page title -->
+    <title>{% block title %}PlantParent{% endblock %}</title>
+    
+    <!-- External CSS: Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom inline styles -->
+    <style>
+        /* Base styles */
+        /* Applies a clean sans-serif font family for readability. */
+        /* Uses a soft gray background (#f8f9fa) for the entire page to reduce strain. */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .hero-section {
+            /* Light green background */
+            background-color: #f1f8e9;
+            /* Rounded bottom corners */
+            border-radius: 0 0 20px 20px;
+        }
+
+        /* Removes default Bootstrap borders. */
+        /* Adds subtle shadow and hover animations to make cards feel "elevated". */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover {
+            /* Lifts the card on hover */
+            transform: translateY(-5px);
+            /* Stronger shadow */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Forces card images to be a uniform 200px in height. */
+        /* object-fit: cover ensures images fill the space without distortion. */
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Customizes the Bootstrap "success" color to a vivid green (#28a745). */
+        /* Ensures consistency across buttons, backgrounds, and outlines. */
+        /* Improves hover behavior to give feedback. */
+        .bg-success {
+            background-color: #28a745 !important;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-outline-success {
+            color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #28a745;
+            color: white;
+        }
+
+        /* Navbar styles */
+        /* Adds soft shadow under the navbar to separate it from the page visually. */
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer styles */
+        /* Ensures the footer does not stick too closely to the main content. */
+        footer {
+            margin-top: 50px;
+        }
+
+        /* Product detail image */
+        /* Applies max height to detail product images. */
+        /* Ensures large images don’t overflow and always crop nicely. */
+        .img-fluid.rounded {
+            max-height: 500px;
+            object-fit: cover;
+        }
+
+        /* Plant Carousel Styles */
+        /* Gives the carousel a modern, elevated look with rounded corners. */
+        .plant-carousel {
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ensures all carousel images are consistently sized. */
+        /* Crops excess area instead of stretching. */
+        .plant-carousel .carousel-item img {
+            height: 300px;
+            object-fit: cover;
+        }
+
+        /* Makes text captions more readable by darkening the background behind them. */
+        .carousel-caption {
+            /* semi-transparent black */
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        /* Responsive adjustments */
+        /* Optimizes image size on small screens: Cards shrink from 200px to 150px. */
+        /* Optimizes image size on small screens: Carousel images shrink from 300px to 200px. */
+        /* This improves performance and layout on mobile devices. */
+        @media (max-width: 768px) {
+            .card-img-top {
+                height: 150px;
+            }
+            .plant-carousel .carousel-item img {
+                height: 200px;
+            }
+        }
+    </style>
+
+    <!-- Optional CSS block for extending templates -->
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation Bar (Top menu) -->
+    <!-- A Bootstrap responsive navbar -->
+    <!-- bg-success gives it a green background (customized) -->
+    <!-- Expands on large screens, collapses on mobile -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container">
+            <!-- The main logo/brand link -->
+            <!-- Goes to the home page -->
+            <a class="navbar-brand" href="{% url 'products:home' %}">PlantParent</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Navigation links aligned left:
+                        Shop → product list
+                        Categories → product categories
+                        Blog → blog post list -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'products:list' %}">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'products:categories' %}">Categories</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'blog:post_list' %}">Blog</a>
+                    </li>
+                </ul>
+                <!-- Shows wishlist and cart icons with dynamic badge counts: -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'wishlist:view' %}">
+                            <i class="fas fa-heart"></i> Wishlist
+                            <!-- Wishlist count for logged-in users -->
+                            <span class="badge bg-danger" id="wishlist-count">
+                                {% if request.user.is_authenticated %}{{ request.user.wishlist.items.count }}{% else %}0{% endif %}
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cart:view' %}">
+                            <i class="fas fa-shopping-cart"></i> Cart
+                            <!-- Cart count from context -->
+                            <span class="badge bg-danger" id="cart-count">
+                                {% if cart %}{{ cart.total_quantity }}{% else %}0{% endif %}
+                            </span>
+                        </a>
+                    </li>
+                    <!-- Displays different options depending on the user's authentication status -->
+                    <!-- Dropdown with Profile, Orders, Logout -->
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i> {{ user.email }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'orders:history' %}">Order History</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
+                    <!-- Show Login and Register links -->
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loops over Django messages (like success, error, warning)
+         Uses Bootstrap alert styling
+         Messages fade out and are dismissible -->
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Main Content
+         Placeholder block where each page injects its specific content
+         Every child template should override this block-->
+    <main class="container my-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <!-- A dark-themed footer with 3 sections:
+         About: description of the brand
+         Quick Links: useful navigation links
+         Social Icons: Facebook, Instagram, Twitter (Font Awesome) -->
+    <footer class="bg-dark text-white py-4 mt-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>About PlantParent</h5>
+                    <p>A world full of greenery. <br>
+                       Homes full of oxygen and beauty. <br>
+                       Blooming gardens. <br>
+                       Offices inspired by nature. <br></p>
+                    <p style="color: #0fbd0f;">
+                        <b>We imagine this world.</b><br>
+                        <b>We leave your vision to you.</b>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'products:home' %}" class="text-white">Home</a></li>
+                        <li><a href="{% url 'products:list' %}" class="text-white">Shop</a></li>
+                        <li><a href="#" class="text-white">Payments</a></li>
+                        <li><a href="#" class="text-white">Delivery</a></li>
+                        <li><a href="#" class="text-white">Careers</a></li>
+                        <li><a href="#" class="text-white">FAQs</a></li>
+                        <li><a href="#" class="text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4" >
+                    <h5>Connect With Us</h5>
+                    <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+
+                    <!-- GIF image below social icons -->
+                    <div class="mt-3">
+                        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_632/a5364778036023.5c9a9814218f1.gif"
+                             alt="Animated Plants"
+                             style="width: 180px; border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!-- Footer copyright -->
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 PlantParent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Section -->
+    <!-- Bootstrap JS Bundle -->
+    <!-- Enables Bootstrap features like dropdowns, modals, collapses -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS Logic – Interactivity -->
+    <script>
+        // Cart and wishlist AJAX functionality
+        // Waits for the DOM to fully load before running
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add to cart buttons
+            document.querySelectorAll('.add-to-cart-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update cart count
+                            document.getElementById('cart-count').textContent = data.cart_total;
+                            
+                            // Show success message
+                            const alert = document.createElement('div');
+                            alert.className = 'alert alert-success alert-dismissible fade show';
+                            alert.innerHTML = `
+                                Item added to cart!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            `;
+                            document.querySelector('main').prepend(alert);
+                            
+                            // Auto-dismiss after 3 seconds
+                            setTimeout(() => {
+                                alert.classList.remove('show');
+                                setTimeout(() => alert.remove(), 150);
+                            }, 3000);
+                        }
+                    });
+                });
+            });
+            
+            // Add to wishlist buttons
+            document.querySelectorAll('.add-to-wishlist-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update wishlist count
+                            document.getElementById('wishlist-count').textContent = data.wishlist_count;
+                            
+                            // Change button appearance
+                            const button = this.querySelector('button');
+                            if (data.action === 'added') {
+                                button.classList.remove('btn-outline-danger');
+                                button.classList.add('btn-danger');
+                                button.innerHTML = '<i class="fas fa-heart"></i> Added';
+                            } else {
+                                button.classList.remove('btn-danger');
+                                button.classList.add('btn-outline-danger');
+                                button.innerHTML = '<i class="fas fa-heart"></i> Wishlist';
+                            }
+                        }
+                    });
+                });
+            });
+
+            // Auto-rotate the carousel every 5 seconds
+            const plantCarousel = new bootstrap.Carousel(document.getElementById('plantCarousel'), {
+                interval: 5000,
+                ride: 'carousel'
+            });
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

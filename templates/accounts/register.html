@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {# Inherit global layout including navbar and footer #}
+{% load crispy_forms_tags %} {# Load crispy_forms so we can render the form with Bootstrap styling #}
+
+{% block content %}
+<!-- User Registration Page -->
+<div class="row justify-content-center">
+    <div class="col-md-6"> {# Centered form container on medium+ screens #}
+        <div class="card">
+            <!-- Card Header with green background -->
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Register</h4>
+            </div>
+            <!-- Card Body containing the registration form -->
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %} {# Protects against CSRF attacks (required in Django forms) #}
+                    {{ form|crispy }} {# Render all form fields using crispy-forms styling #}
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-success w-100">Register</button>
+                </form>
+                <!-- Link to login if user already has an account -->
+                <div class="mt-3 text-center">
+                    <p>Already have an account? <a href="{% url 'accounts:login' %}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

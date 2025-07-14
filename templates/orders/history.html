@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{# Inherits layout from base.html (navbar, footer, etc.) #}
+
+{% block content %}
+<!-- Page Header -->
+<div class="row">
+    <div class="col-12">
+        <h1>Order History</h1>
+        <hr>
+    </div>
+</div>
+
+<!-- Check if the user has any orders -->
+{% if orders %}
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <!-- Orders Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <!-- Order ID -->
+                            <td>{{ order.id }}</td>
+                            <!-- Date formatted as "Month day, Year" -->
+                            <td>{{ order.created_at|date:"F j, Y" }}</td>
+                            <!-- Order status with color-coded badge -->
+                            <td>
+                                <span class="badge 
+                                    {% if order.status == 'delivered' %}bg-success
+                                    {% elif order.status == 'cancelled' %}bg-danger
+                                    {% else %}bg-warning text-dark{% endif %}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+                            <!-- Total price of the order -->
+                            <td>€{{ order.total_paid }}</td>
+                            <!-- Action button to view order details -->
+                            <td>
+                                <a href="{% url 'orders:detail' order.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<!-- If no orders are found, show a message encouraging user to shop -->
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info">
+            You haven't placed any orders yet. <a href="{% url 'products:list' %}" class="alert-link">Start shopping</a>.
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{# Inherits layout from the base template — includes navigation bar, footer, etc. #}
+{% load crispy_forms_tags %}
+{# Loads crispy forms (not actually used here but could be for form rendering) #}
+
+{% block content %}
+<!-- Page layout split into two columns: left for shipping form, right for order summary -->
+<div class="row">
+    <!-- Left column: Shipping Form -->
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Shipping Information</h5>
+            </div>
+            <div class="card-body">
+                <!-- Form POSTs shipping address info -->
+                <form method="post" id="checkout-form">
+                    {% csrf_token %}
+                    <!-- User name fields (not submitted, just for display) -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" value="{{ request.user.first_name }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" value="{{ request.user.last_name }}" required>
+                        </div>
+                    </div>
+                    <!-- Email (also not submitted, just informational) -->
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="{{ request.user.email }}" required>
+                    </div>
+                    <!-- Address (submitted as part of POST) -->
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <input type="text" name="address" class="form-control" value="{{ request.user.address }}" required>
+                    </div>
+                    <!-- City / Postal Code / Country fields -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" name="city" class="form-control" value="{{ request.user.city }}" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Postal Code</label>
+                            <input type="text" name="postal_code" class="form-control" value="{{ request.user.postal_code }}" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Country</label>
+                            <input type="text" name="country" class="form-control" value="{{ request.user.country }}" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right column: Order Summary -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Order Summary</h5>
+            </div>
+            <div class="card-body">
+            <!-- Displays all products and quantities from the cart -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.items.all %}
+                            <tr>
+                                <td>{{ item.product.name }} × {{ item.quantity }}</td>
+                                <td>€{{ item.total_price }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Subtotal</th>
+                            <td>€{{ cart.total_price }}</td>
+                        </tr>
+                        <tr>
+                            <th>Shipping</th>
+                            <td>€5.00</td>
+                        </tr>
+                        <tr class="fw-bold">
+                            <th>Total</th>
+                            <td>€{{ cart.total_price|add:5 }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <!-- This button submits the shipping form (via its form ID) -->
+                <button type="submit" form="checkout-form" class="btn btn-success w-100">Place Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
