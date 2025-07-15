@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Link to Animate.css library (v4.1.1) from CDN for adding CSS animations to elements -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <meta name="csrf-token" content="{{ csrf_token }}">
     <!-- Basic metadata for encoding and responsive behavior -->
@@ -25,18 +26,22 @@
             background-color: #f8f9fa;
         }
 
+        /* Base style for all reaction buttons (like/dislike) */
         .reaction-btn {
-          transition: transform 0.2s ease-in-out;
+          transition: transform 0.2s ease-in-out; /* Smooth animation when scaling on hover */
         }
+        /* Enlarge the button slightly when hovered over */
         .reaction-btn:hover {
-          transform: scale(1.15);
+          transform: scale(1.15); /* Zoom in the button to 115% on hover */
         }
+        /* Style for active (selected) like or dislike button */
         .reaction-btn.active {
-          background-color: #28a745 !important;
-          color: white !important;
+          background-color: #28a745 !important; /* Green background for active (typically "like") */
+          color: white !important;              /* White text/icon for contrast */
         }
+        /* Specific style for active dislike button */
         .dislike-btn.active {
-          background-color: #dc3545 !important;
+          background-color: #dc3545 !important; /* Red background when "dislike" is active */
         }
 
         .hero-section {

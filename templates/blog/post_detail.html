@@ -18,39 +18,56 @@
                         <div class="d-flex align-items-center gap-4 mt-3 mb-4">
                           <!-- Like Button -->
                           <div class="position-relative text-center">
+                            <!-- Custom data attribute indicating this is a 'like' button -->
+                            <!-- Custom data attribute with the current post ID -->
+                            <!-- Set button size -->
                             <button type="button"
                                     class="reaction-btn btn btn-outline-success rounded-circle shadow like-btn"
                                     data-action="like"
                                     data-post="{{ post.id }}"
                                     style="width: 48px; height: 48px;">
+                              <!-- Icon inside the button -->
                               <i class="fas fa-leaf"></i>
                             </button>
+                            <!-- Like count badge -->
                             <span class="badge bg-success position-absolute top-0 start-100 translate-middle rounded-pill" id="like-count">
-                              {{ like_count }}
+                                <!-- Displays total like count from backend -->
+                                {{ like_count }}
                             </span>
+                            <!-- Text label under the button -->
                             <small class="d-block mt-1 text-success">Like</small>
                           </div>
 
                           <!-- Dislike Button -->
                           <div class="position-relative text-center">
+                            <!-- Indicates this is a 'dislike' button -->
+                            <!-- Current post ID -->
+                            <!-- Set button size -->
                             <button type="button"
                                     class="reaction-btn btn btn-outline-danger rounded-circle shadow dislike-btn"
                                     data-action="dislike"
                                     data-post="{{ post.id }}"
                                     style="width: 48px; height: 48px;">
+                              <!-- Icon for dislike -->
                               <i class="fas fa-bug"></i>
                             </button>
+                            <!-- Dislike count badge -->
                             <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill" id="dislike-count">
-                              {{ dislike_count }}
+                                <!-- Displays total dislike count -->
+                                {{ dislike_count }}
                             </span>
+                            <!-- Text label under the button -->
                             <small class="d-block mt-1 text-danger">Dislike</small>
                           </div>
                         </div>
+                        <!-- Section showing users who liked the post -->
                         <div class="mt-4">
                           <h6 class="text-muted">Liked by:</h6>
                           <div class="d-flex flex-wrap gap-2">
+                            <!-- Loop through all reactions for this post -->
                             {% for r in post.reactions.all %}
                               {% if r.action == 'like' %}
+                                <!-- Display badge with user email for each like -->
                                 <span class="badge bg-light border text-success">{{ r.user.email }}</span>
                               {% endif %}
                             {% endfor %}
@@ -75,30 +92,47 @@
         </div>
     </div>
 </div>
+
+<!-- This script handles like and dislike button interactions on blog posts.
+     It allows users to react (like/dislike) to a post via AJAX, updates the like/dislike counters,
+     and highlights the selected button without reloading the page. -->
 <script>
+// Wait until the page is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
+    // Get CSRF token from meta tag for secure POST requests
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+    // Attach click listeners to all like/dislike buttons
     document.querySelectorAll('.reaction-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
+            // Get post ID and reaction type (like/dislike) from data attributes
             const postId = this.dataset.post;
             const action = this.dataset.action;
 
+            // Send the reaction to the backend via AJAX
             fetch("{% url 'blog:post_react' %}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
+                    'X-CSRFToken': csrfToken, // Required for Django to accept the request
                 },
                 body: JSON.stringify({ post_id: postId, action: action }),
             })
             .then(response => response.json())
             .then(data => {
+                // If the server responded successfully, update the UI
+                // If the response indicates success:
+                // Updates the like and dislike counters in the DOM.
+                // Removes the active class from all buttons.
+                // Adds the active class to the clicked button (either like or dislike).
                 if (data.success) {
+                    // Update like/dislike counters in the DOM
                     document.getElementById('like-count').textContent = data.likes;
                     document.getElementById('dislike-count').textContent = data.dislikes;
 
+                    // Remove 'active' class from all buttons
                     document.querySelectorAll('.reaction-btn').forEach(btn => btn.classList.remove('active'));
+                    // Add 'active' class to the selected button
                     if (action === 'like') {
                         document.querySelector('.like-btn').classList.add('active');
                     } else {
