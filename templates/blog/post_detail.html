@@ -15,21 +15,47 @@
                     Posted on {{ post.created_at|date:"F j, Y" }} by {{ post.author.email|default:"Unknown" }}
                     <div class="mb-3">
                         <!-- Reaction Buttons -->
-                        <small>
-                            <i class="fas fa-thumbs-up text-success me-1 reaction-btn"
-                               data-action="like"
-                               data-post="{{ post.id }}"
-                               style="cursor:pointer;"></i>
-                            <span id="like-count">{{ like_count }}</span>
+                        <div class="d-flex align-items-center gap-4 mt-3 mb-4">
+                          <!-- Like Button -->
+                          <div class="position-relative text-center">
+                            <button type="button"
+                                    class="reaction-btn btn btn-outline-success rounded-circle shadow like-btn"
+                                    data-action="like"
+                                    data-post="{{ post.id }}"
+                                    style="width: 48px; height: 48px;">
+                              <i class="fas fa-leaf"></i>
+                            </button>
+                            <span class="badge bg-success position-absolute top-0 start-100 translate-middle rounded-pill" id="like-count">
+                              {{ like_count }}
+                            </span>
+                            <small class="d-block mt-1 text-success">Like</small>
+                          </div>
 
-                            &nbsp;&nbsp;
-
-                            <i class="fas fa-thumbs-down text-danger me-1 reaction-btn"
-                               data-action="dislike"
-                               data-post="{{ post.id }}"
-                               style="cursor:pointer;"></i>
-                            <span id="dislike-count">{{ dislike_count }}</span>
-                        </small>
+                          <!-- Dislike Button -->
+                          <div class="position-relative text-center">
+                            <button type="button"
+                                    class="reaction-btn btn btn-outline-danger rounded-circle shadow dislike-btn"
+                                    data-action="dislike"
+                                    data-post="{{ post.id }}"
+                                    style="width: 48px; height: 48px;">
+                              <i class="fas fa-bug"></i>
+                            </button>
+                            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill" id="dislike-count">
+                              {{ dislike_count }}
+                            </span>
+                            <small class="d-block mt-1 text-danger">Dislike</small>
+                          </div>
+                        </div>
+                        <div class="mt-4">
+                          <h6 class="text-muted">Liked by:</h6>
+                          <div class="d-flex flex-wrap gap-2">
+                            {% for r in post.reactions.all %}
+                              {% if r.action == 'like' %}
+                                <span class="badge bg-light border text-success">{{ r.user.email }}</span>
+                              {% endif %}
+                            {% endfor %}
+                          </div>
+                        </div>
                     </div>
                     {% if not post.published %}<span class="badge bg-warning ms-2">Pending Approval</span>{% endif %}
                 </div>
@@ -66,23 +92,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify({ post_id: postId, action: action }),
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("HTTP error " + response.status);
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     document.getElementById('like-count').textContent = data.likes;
                     document.getElementById('dislike-count').textContent = data.dislikes;
-                } else {
-                    alert("Something went wrong.");
+
+                    document.querySelectorAll('.reaction-btn').forEach(btn => btn.classList.remove('active'));
+                    if (action === 'like') {
+                        document.querySelector('.like-btn').classList.add('active');
+                    } else {
+                        document.querySelector('.dislike-btn').classList.add('active');
+                    }
                 }
-            })
-            .catch(error => {
-                console.error(error);
-                alert("Network error or CSRF issue.");
             });
         });
     });
