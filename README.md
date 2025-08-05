@@ -100,3 +100,17 @@ The Product Details page provides customers with complete information about a se
 This page enhances the shopping experience by providing detailed product insights, social proof through reviews, and recommendations for similar plants.
   
 ![Product Details Page Screenshot](assets/plant-page.png)
+
+## Write a Review Page
+The Write a Review page allows authenticated users to share their experience with a specific product and provide valuable feedback for other customers.
+- **Access** – Available by clicking the Write a Review button on a product’s details page.
+- **Review Form** – 
+  - **Rating** – A 5-star rating system where users can select from Poor to Excellent.
+  - **Review Text** – A text area for writing detailed feedback about the product.
+- **Actions** – 
+  - **Submit Review** – Publishes the user’s feedback.
+  - **Cancel** – Returns to the product details page without submitting.
+
+This feature helps build community trust and assists future customers in making informed purchasing decisions.
+  
+![Write a Review Page Screenshot](assets/review-page.png)
