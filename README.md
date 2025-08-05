@@ -38,7 +38,7 @@ Follow these steps to set up the project locally:
 6. **Access the Application**:
     Open your browser and navigate to `http://127.0.0.1:8000`.
 
-## Table of Contents
+## 📖 Table of Contents
 - [Home Page](#home-page)
 - [Login Page](#login-page)
 - [Register Page](#register-page)
