@@ -38,3 +38,35 @@ The page allows authenticated users to manage their personal information and cus
 This page provides users with an easy and secure way to keep their information up to date while staying connected to PlantParent’s community and offers.
   
 ![My Profile Page Screenshot](assets/my-profile-page.png)
+
+## Wishlist Page
+The page allows authenticated users to save and manage products they are interested in purchasing later.
+- **Access** – This page can be accessed by clicking the Wishlist icon in the navigation bar.
+- **Wishlist Items** – Displays all products added to the wishlist with their name, price, and stock status.
+- **Actions** – Remove an item from the wishlist & Add to Cart directly from the wishlist for a quicker checkout process.
+
+This page helps users conveniently track desired products and easily move them to their shopping cart when ready to buy.
+  
+![Wishlist Page Screenshot](assets/wishlist-page.png)
+
+## Shopping Cart Page
+- **Access** – Accessible from the Cart icon in the navigation bar.
+- **Features** – Shows all products added to the cart with their price, quantity (editable), and total cost.
+- **Actions** – Users can update item quantities, remove items, view the subtotal and shipping costs, and proceed to checkout.
+  
+![Cart Page Screenshot](assets/cart-page-1.png)
+
+## Checkout Page
+- **Access** – Reached by clicking Proceed to Checkout from the shopping cart page.
+- **Shipping Information** – Users fill in personal and address details.
+- **Order Summary** – Displays products, quantities, and total cost including shipping.
+- **Place Order** button to finalize the purchase.
+  
+![Cart Page Screenshot](assets/cart-page-2.png)
+
+## Order History Page
+- **Access** – This page can be accessed by clicking on the logged-in user’s name in the navigation bar.
+- **Features** – Displays a list of all past orders with details such as order number, date, status (e.g., Pending, Cancelled), total cost, and an action button to view more details.
+- **Purpose** – Allows users to track and review their previous purchases and their current order status.
+  
+![Order History Page Screenshot](assets/order-history-page.png)
