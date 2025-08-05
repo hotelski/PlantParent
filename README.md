@@ -25,4 +25,16 @@ A clean and simple interface where users can log in with their email and passwor
 ## Register Page
 A user-friendly registration form where new users can create a PlantParent account. The form includes fields for email, first and last name, password setup with confirmation, and a required agreement to the Terms of Service and Privacy Policy. The design is enhanced with an illustration of a growing plant, symbolizing new beginnings.
   
-![Login Page Screenshot](assets/register-page.png)
+![Register Page Screenshot](assets/register-page.png)
+
+## My Profile Page
+The page allows authenticated users to manage their personal information and customize their account experience.
+- **Access** – This page can be accessed by clicking on the logged-in user’s name in the navigation bar.
+- **Profile Picture** – Users can upload or change their profile picture.
+- **Personal Information** – Editable fields for first and last name, phone number, address, city, postal code, and country.
+- **Preferences** – Option to subscribe to newsletters and promotional emails.
+- **Controls** – Buttons to Update Profile and Cancel changes for better account management.
+  
+This page provides users with an easy and secure way to keep their information up to date while staying connected to PlantParent’s community and offers.
+  
+![My Profile Page Screenshot](assets/my-profile-page.png)
