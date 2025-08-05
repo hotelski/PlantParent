@@ -114,3 +114,31 @@ The Write a Review page allows authenticated users to share their experience wit
 This feature helps build community trust and assists future customers in making informed purchasing decisions.
   
 ![Write a Review Page Screenshot](assets/review-page.png)
+
+## Categories Page
+The page allows users to browse plants organized into different collections, making it easier to explore and shop by preference or occasion.
+- **Access** – Available from the main navigation menu under Categories.
+- **Category Listings** – Displays multiple plant categories, each with:
+  - A representative image.
+  - Category name and short description.
+  - View Products button to see all plants within that category.
+
+This page enhances navigation and helps customers quickly find plants based on their needs or interests
+  
+![Categories Page](assets/categories-page-1.png)
+
+## Category Details Page
+The Category Details page displays all products that belong to a selected category, helping users quickly browse items within their area of interest.
+- **Access** – Reached by clicking View Products on any category from the Categories page.
+- **Category Header** – Shows the category name and a brief description of what it offers.
+- **Product Listings** – Displays all available products in the selected category, including:
+  - Product image.
+  - Name and price.
+  - Stock availability.
+- **Actions** – Users can:
+  - Add to Cart to purchase immediately.
+  - Add to Wishlist to save items for later.
+
+This page streamlines navigation and ensures users can explore category-specific plants efficiently.
+  
+![Category Details Page](assets/categories-page-2.png)
