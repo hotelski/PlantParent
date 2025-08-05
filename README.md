@@ -142,3 +142,18 @@ The Category Details page displays all products that belong to a selected catego
 This page streamlines navigation and ensures users can explore category-specific plants efficiently.
   
 ![Category Details Page](assets/categories-page-2.png)
+
+## Blog Page
+The Blog page serves as a hub for plant care articles, guides, and news, helping users stay informed and inspired.
+- **Access** – Available from the main navigation menu under Blog.
+- **Purpose** – Enhances user engagement by offering helpful information about plant care, inspiration for home gardening, and updates on new products or tips.
+- **Blog Posts** – Displays a collection of posts with:
+  - Cover image.
+  - Title and excerpt.
+  - Publication date and author.
+  - Buttons for Read More and, when permitted, Edit.
+- **Admin Actions** – 
+  - New Post and Edit Post buttons are visible only to users with administrative privileges or sufficient permissions.
+  - Allows admins to create, update, and manage blog content directly from this page.
+  
+![Category Details Page](assets/blog-page.png)
