@@ -16,3 +16,13 @@ The PlantParent homepage is designed to provide a welcoming and nature-inspired 
 ![Home Page Screenshot](assets/home-page-3.png)
 ![Home Page Screenshot](assets/home-page-4.png)
 ![Home Page Screenshot](assets/home-page-5.png)
+
+## Login Page
+A clean and simple interface where users can log in with their email and password. Includes options to remember login credentials and reset forgotten passwords. The page features a calming forest background to reflect the brand’s nature theme.
+  
+![Login Page Screenshot](assets/login-page.png)
+
+## Register Page
+A user-friendly registration form where new users can create a PlantParent account. The form includes fields for email, first and last name, password setup with confirmation, and a required agreement to the Terms of Service and Privacy Policy. The design is enhanced with an illustration of a growing plant, symbolizing new beginnings.
+  
+![Login Page Screenshot](assets/register-page.png)
