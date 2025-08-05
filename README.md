@@ -9,6 +9,16 @@ PlantParent is a platform for plant lovers. Users can browse and purchase plants
 - [Wishlist Page](#wishlist-page)
 - [Shopping Cart Page](#shopping-cart-page)
 - [Checkout Page](#checkout-page)
+- [Order History Page](#order-history-page)
+- [Shop Page](#shop-page)
+- [Product Details Page](#product-details-page)
+- [Write a Review Page](#write-a-review-page)
+- [Categories Page](#categories-page)
+- [Category Details Page](#category-details-page)
+- [Blog Page](#blog-page)
+- [Create Blog Post Page](#create-blog-post-page)
+- [Edit Blog Post Page](#edit-blog-post-page)
+- [Blog Post Details Page](#blog-post-details-page)
 
 ## Home Page
 The PlantParent homepage is designed to provide a welcoming and nature-inspired experience for visitors. It includes the following sections:
