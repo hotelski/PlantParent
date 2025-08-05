@@ -70,3 +70,33 @@ This page helps users conveniently track desired products and easily move them t
 - **Purpose** – Allows users to track and review their previous purchases and their current order status.
   
 ![Order History Page Screenshot](assets/order-history-page.png)
+
+## Shop Page
+The page displays all available plants for purchase and provides users with tools to easily find and add products to their cart or wishlist.
+- **Access** – Accessible from the main navigation menu under the Shop link.
+- **Product Listings** – Shows product images, names, prices, and short descriptions for each plant.
+- **Filters & Search** –
+  - Search bar to quickly find products by name.
+  - Filter options by category, featured products, and price range.
+- **Actions** – Users can:
+  - Add to Cart to purchase products.
+  - Add to Wishlist to save items for later.
+  - Open a Product Detail Page to view more information about a specific plant, including a detailed description, features, and care instructions.
+
+This page makes it simple for customers to browse, filter, and select plants, enhancing the shopping experience.
+  
+![Shop Page Screenshot](assets/shop-page.png)
+
+## Product Details Page
+The Product Details page provides customers with complete information about a selected plant, enabling them to make informed purchasing decisions.
+- **Access** – Reached by clicking on any product from the Shop or Featured Products sections.
+- **Product Information** – Displays the product name, price, category, stock availability, and a detailed description including plant characteristics and care instructions.
+- **Actions** – 
+  - Add to Cart to include the product in the shopping cart.
+  - Add to Wishlist to save the item for later.
+- **Customer Reviews** – Shows reviews from other buyers, including ratings and comments.
+- **Recommendations** – “You May Also Like” section suggests related plants to explore from the same category.
+
+This page enhances the shopping experience by providing detailed product insights, social proof through reviews, and recommendations for similar plants.
+  
+![Product Details Page Screenshot](assets/plant-page.png)
