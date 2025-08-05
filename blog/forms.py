@@ -1,5 +1,6 @@
 from django import forms
-from .models import BlogPost
+from .models import BlogPost, Comment
+
 
 class BlogPostForm(forms.ModelForm):
     class Meta:
@@ -52,3 +53,22 @@ class BlogPostForm(forms.ModelForm):
         if image and image.size > 5 * 1024 * 1024:
             raise forms.ValidationError("Image file too large (max 5MB)")
         return image
+
+# This form is based on the Comment model
+class CommentForm(forms.ModelForm):
+    class Meta:
+        # Use the Comment model
+        model = Comment
+        # Only include the 'text' field in the form
+        fields = ['text']
+        # Customize how the 'text' field is rendered in HTML
+        widgets = {
+            'text': forms.Textarea(attrs={
+                # The textarea will have 3 visible rows
+                'rows': 3,
+                # Text shown when empty
+                'placeholder': 'Write your comment here...',
+                # Bootstrap class for styling
+                'class': 'form-control'
+            })
+        }

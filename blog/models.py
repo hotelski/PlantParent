@@ -63,3 +63,23 @@ class BlogPostReaction(models.Model):
 
     class Meta:
         unique_together = ('post', 'user')  # only one reaction per post per user
+
+
+class Comment(models.Model):
+    # Link to the blog post this comment belongs to
+    post = models.ForeignKey(BlogPost, # Reference to the BlogPost model
+                             on_delete=models.CASCADE, # If the post is deleted, delete its comments too
+                             related_name='comments') # Allows access like post.comments.all()
+    # The user who wrote the comment
+    author = models.ForeignKey(User, # Reference to the User model
+                               on_delete=models.CASCADE) # If the user is deleted, delete their comments
+    # The content of the comment
+    text = models.TextField()
+    # When the comment was created (automatically set on creation)
+    created_at = models.DateTimeField(auto_now_add=True)
+    # When the comment was last edited (automatically updated on save)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        # String representation for admin and debugging
+        return f"Comment by {self.author} on {self.post}"
