@@ -2,6 +2,15 @@
 PlantParent is a platform for plant lovers. Users can browse and purchase plants, read helpful articles on care and maintenance, rate products and content, etc.
 
 ## Home Page
+The PlantParent homepage is designed to provide a welcoming and nature-inspired experience for visitors. It includes the following sections:
+- **Header & Navigation** – Features the PlantParent logo, navigation menu (Shop, Categories, Blog), and quick access to Wishlist, Cart, Login, and Registration options.
+- **Hero Section** – A large welcoming banner with the message “Anyone can Plant – The best season to start afresh” and a prominent Shop Now button to guide users to the store.
+- **Featured Products** – A showcase of highlighted plants with images, names, and prices, allowing quick add-to-cart and wishlist actions.
+- **Brand Story (Behind The Brand)** – A section explaining the company’s mission to provide rare and unique houseplants, with an accompanying lifestyle image.
+- **Community Stats (Our Growing Community)** – Displays live statistics about users, blog posts, reviews, products, categories, likes, dislikes, and orders to showcase community growth.
+- **Subscription Banner** – A call-to-action area encouraging visitors to subscribe for plant care tips, updates, and exclusive deals via email.
+- **Footer** – Contains links to About, Shop, Payments, Delivery, Careers, FAQs, Contact Us, and social media channels, along with a short brand description and visual illustration.
+  
 ![Home Page Screenshot](assets/home-page-1.png)
 ![Home Page Screenshot](assets/home-page-2.png)
 ![Home Page Screenshot](assets/home-page-3.png)
