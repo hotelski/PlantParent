@@ -157,3 +157,37 @@ The Blog page serves as a hub for plant care articles, guides, and news, helping
   - Allows admins to create, update, and manage blog content directly from this page.
   
 ![Category Details Page](assets/blog-page.png)
+
+## Create Blog Post Page
+The Create Blog Post page is designed for administrators and authorized users to add new content to the PlantParent blog.
+- **Access** – Available only to users with administrative privileges or posting rights, accessible via the + New Post button on the Blog page.
+- **Post Creation Form** –
+  - **Title** – Field for entering the blog post title.
+  - **Featured Image** – Option to upload an image to represent the post.
+  - **Excerpt** – An optional short summary of the blog content.
+  - **Content** – Main body area where the full post is written.
+- **Publishing Options** – 
+  - Checkbox to Publish immediately or save as a draft.
+  - Create Post button to finalize and publish the blog entry.
+  - Cancel button to discard changes and return to the blog overview.
+
+This page allows admins to efficiently create informative and visually appealing articles, enhancing user engagement on the platform.
+  
+![Create Blog Post Page](assets/post-page.png)
+
+## Edit Blog Post Page
+The Edit Blog Post page allows administrators and authorized users to update and manage existing blog content.
+- **Access** – Available only to users with administrative privileges or editing rights. Accessed by clicking the Edit button on a blog post from the Blog page.
+- **Post Creation Form** –
+  - **Title** – Editable field for updating the blog post title.
+  - **Featured Image** – Option to change or remove the current featured image.
+  - **Excerpt** – Field for modifying the short summary of the post.
+  - **Content** – Editable main body text for revising the post’s full content.
+- **Publishing Options** – 
+  - Checkbox to Publish immediately or save changes as a draft.
+  - Update Post button to save and apply edits.
+  - Cancel button to discard changes and return to the blog overview.
+
+This page ensures that blog posts can be easily maintained, updated with new information, or refined to improve reader engagement.
+  
+![Edit Blog Post Page](assets/edit-post-page.png)
