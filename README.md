@@ -191,3 +191,29 @@ The Edit Blog Post page allows administrators and authorized users to update and
 This page ensures that blog posts can be easily maintained, updated with new information, or refined to improve reader engagement.
   
 ![Edit Blog Post Page](assets/edit-post-page.png)
+
+## Blog Post Details Page
+The Blog Post Details page displays the full content of a selected blog article along with interactive features for users to engage with the post.
+- **Main Features** –
+  - **Post Content** – Displays the full article with featured image, title, author, and publication date.
+  - **Likes / Dislikes** – Users can express feedback on the post by liking or disliking it.
+  - **Liked Users List** – Shows which users have liked the post.
+  - **Edit Post Button** – Available only to administrators and users with editing rights, allowing quick navigation to the Edit Blog Post page.
+ 
+![Blog Post Details Page](assets/post-1.png)
+![Blog Post Details Page](assets/post-2.png)
+![Blog Post Details Page](assets/post-3.png)
+
+- **Comments Section** – 
+  - **Profile Pictures** – Users without a custom profile image are assigned a default placeholder avatar.
+  - **User Badges** –
+      - **Admin** – Displays a red “Admin” badge next to the username.
+      - **Moderator (Staff)** – Displays a blue “Moderator” badge next to the username.
+      - **Regular Users** – No badge is shown.
+  - **Comment Editing and Deletion** –
+      - Admins and authorized staff members can edit or delete comments.
+      - When a comment is edited, it shows an “edited” label next to the timestamp.
+  - **Posting New Comments** – Users can write a comment, and upon submission, they are automatically redirected back to the comments section for immediate feedback visibility.
+
+![Blog Post Details Page](assets/post-4.png)
+  
