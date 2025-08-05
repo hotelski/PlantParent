@@ -1,7 +1,44 @@
-# PlantParent
+# 🪴 PlantParent
 PlantParent is a platform for plant lovers. Users can browse and purchase plants, read helpful articles on care and maintenance, rate products and content, etc.
 
-# Table of Contents
+## 🛠️ Technologies Used
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Backend**: Django, Django REST
+- **Database**: PostgreSQL
+- **Styling**: CSS3
+- **Version Control**: Git and GitHub
+
+## 🚀 Installation
+
+Follow these steps to set up the project locally:
+
+1. **Clone the Repository**:
+    ```terminal
+    git clone https://github.com/hotelski/PlantParent.git
+    cd PlantParent
+    ```
+2. **Set Up Virtual Environment**:
+    ```terminal
+    python -m venv .venv
+    source .venv/Scripts/activate
+    ```
+3. **Install Dependencies**:
+    ```terminal
+    pip install -r requirements.txt
+    ```
+4. **Run Migrations**:
+   ```terminal
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+5. **Run the Development Server**:
+    ```terminal
+    python manage.py runserver
+    ```
+6. **Access the Application**:
+    Open your browser and navigate to `http://127.0.0.1:8000`.
+
+## Table of Contents
 - [Home Page](#home-page)
 - [Login Page](#login-page)
 - [Register Page](#register-page)
