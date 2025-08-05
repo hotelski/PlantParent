@@ -3,7 +3,7 @@ PlantParent is a platform for plant lovers. Users can browse and purchase plants
 
 ## 🛠️ Technologies Used
 - **Frontend**: HTML5, CSS3, JavaScript
-- **Backend**: Django, Django REST
+- **Backend**: Python, Django, Django REST
 - **Database**: PostgreSQL
 - **Styling**: CSS3
 - **Version Control**: Git and GitHub
@@ -272,4 +272,8 @@ The Blog Post Details page displays the full content of a selected blog article 
   - **Posting New Comments** – Users can write a comment, and upon submission, they are automatically redirected back to the comments section for immediate feedback visibility.
 
 ![Blog Post Details Page](assets/post-4.png)
-  
+
+## ⚠️ License & Usage
+This application is protected by copyright.
+
+Any reproduction, distribution, or unauthorized use of the code or design is strictly prohibited without prior written permission from the author.
