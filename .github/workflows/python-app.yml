@@ -37,8 +37,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Django tests
-        env:
-          DJANGO_SETTINGS_MODULE: plantparent.settings
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-        run: |
-          python manage.py test -v 2
+  	env:
+    	  DJANGO_SETTINGS_MODULE: plantparent.settings   # смени ако е друго
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  	run: |
+    	  python manage.py test accounts -v 3 --failfast
