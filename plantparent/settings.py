@@ -10,19 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 from pathlib import Path
-
+import os
 from decouple import config
 
 # Define the base directory of the project (root folder)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Secret key for cryptographic signing — keep it secret in production
-SECRET_KEY = config('SECRET_KEY', None)
+SECRET_KEY = os.getenv('SECRET_KEY', config('SECRET_KEY'))
 # Enable debug mode (only for development, not production!)
-DEBUG = config('DEBUG', None) == 'True'
+DEBUG = os.getenv('DEBUG', config('DEBUG')) == 'True'
 
 # Allowed hosts (empty means only localhost is allowed)
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', config('ALLOWED_HOSTS')).split(',')
+
+CSFR_TRUSTED_ORIGINS = os.getenv('CSFR_TRUSTED_ORIGINS', config('CSFR_TRUSTED_ORIGINS', [])).split(',')
 
 INSTALLED_APPS = [
     # Default Django apps
