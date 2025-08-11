@@ -38,7 +38,7 @@ jobs:
 
       - name: Run Django tests
         env:
-          DJANGO_SETTINGS_MODULE: myproject.settings  # смени с твоите settings
+          DJANGO_SETTINGS_MODULE: plantparent.settings
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
         run: |
           python manage.py test -v 2
