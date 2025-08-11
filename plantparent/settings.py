@@ -24,7 +24,7 @@ DEBUG = os.getenv('DEBUG', config('DEBUG')) == 'True'
 # Allowed hosts (empty means only localhost is allowed)
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', config('ALLOWED_HOSTS')).split(',')
 
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', config('CSRF_TRUSTED_ORIGINS', [])).split(',')
+# CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', config('CSRF_TRUSTED_ORIGINS', [])).split(',')
 
 INSTALLED_APPS = [
     # Default Django apps
