@@ -37,8 +37,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Django tests
-  	env:
-    	  DJANGO_SETTINGS_MODULE: plantparent.settings   # смени ако е друго
+        env:
+          DJANGO_SETTINGS_MODULE: plantparent.settings 
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-  	run: |
-    	  python manage.py test accounts -v 3 --failfast
+        run: |
+          python manage.py test accounts -v 3 --failfast
