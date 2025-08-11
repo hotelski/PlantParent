@@ -57,7 +57,7 @@ Follow these steps to set up the project locally:
 - [Edit Blog Post Page](#edit-blog-post-page)
 - [Blog Post Details Page](#blog-post-details-page)
 - [Unit and Integration Tests for accounts views](#unit-and-integration-tests-for-accounts-views)
-- [License & Usage](#license-&-usage)
+- [License & Usage](#license--usage)
 
 ## Home Page
 The PlantParent homepage is designed to provide a welcoming and nature-inspired experience for visitors. It includes the following sections:
