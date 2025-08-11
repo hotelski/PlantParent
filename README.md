@@ -277,3 +277,8 @@ The Blog Post Details page displays the full content of a selected blog article 
 This application is protected by copyright.
 
 Any reproduction, distribution, or unauthorized use of the code or design is strictly prohibited without prior written permission from the author.
+
+## 🧪 Unit and Integration Tests for accounts views
+[![Django Tests](https://github.com/hotelski/PlantParent/actions/workflows/python-app.yml/badge.svg)](https://github.com/hotelski/PlantParent/actions/workflows/python-app.yml)
+
+**Test Coverage:** 14 automated tests for the 'accounts' app - covering user registration, login/logout, profile updates, and password changes (valid & invalid flows).
