@@ -38,6 +38,16 @@ Follow these steps to set up the project locally:
 6. **Access the Application**:
     Open your browser and navigate to `http://127.0.0.1:8000`.
 
+## 🧪 Unit and Integration Tests for accounts views
+[![Django Tests](https://github.com/hotelski/PlantParent/actions/workflows/python-app.yml/badge.svg)](https://github.com/hotelski/PlantParent/actions/workflows/python-app.yml)
+
+**Test Coverage:** 14 automated tests for the `accounts` app.  
+Covers critical authentication and profile flows:
+- **Registration** – valid/invalid sign-ups and session handling
+- **Login & Logout** – successful logins, invalid attempts, and session clearing
+- **Profile Update** – form rendering, valid/invalid submissions, and message feedback
+- **Password Change** – successful changes, validation errors, and access control
+
 ## 📖 Table of Contents
 - [Home Page](#home-page)
 - [Login Page](#login-page)
@@ -56,8 +66,6 @@ Follow these steps to set up the project locally:
 - [Create Blog Post Page](#create-blog-post-page)
 - [Edit Blog Post Page](#edit-blog-post-page)
 - [Blog Post Details Page](#blog-post-details-page)
-- [Unit and Integration Tests for accounts views](#unit-and-integration-tests-for-accounts-views)
-- [License & Usage](#license--usage)
 
 ## Home Page
 The PlantParent homepage is designed to provide a welcoming and nature-inspired experience for visitors. It includes the following sections:
@@ -274,16 +282,6 @@ The Blog Post Details page displays the full content of a selected blog article 
   - **Posting New Comments** – Users can write a comment, and upon submission, they are automatically redirected back to the comments section for immediate feedback visibility.
 
 ![Blog Post Details Page](assets/post-4.png)
-
-## 🧪 Unit and Integration Tests for accounts views
-[![Django Tests](https://github.com/hotelski/PlantParent/actions/workflows/python-app.yml/badge.svg)](https://github.com/hotelski/PlantParent/actions/workflows/python-app.yml)
-
-**Test Coverage:** 14 automated tests for the `accounts` app.  
-Covers critical authentication and profile flows:
-- **Registration** – valid/invalid sign-ups and session handling
-- **Login & Logout** – successful logins, invalid attempts, and session clearing
-- **Profile Update** – form rendering, valid/invalid submissions, and message feedback
-- **Password Change** – successful changes, validation errors, and access control
 
 ## ⚠️ License & Usage
 This application is protected by copyright.
