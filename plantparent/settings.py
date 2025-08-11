@@ -10,13 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 from pathlib import Path
+
+from decouple import config
+
 # Define the base directory of the project (root folder)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Secret key for cryptographic signing — keep it secret in production
-SECRET_KEY = 'random-secret-key'
+SECRET_KEY = config('SECRET_KEY', None)
 # Enable debug mode (only for development, not production!)
-DEBUG = True
+DEBUG = config('DEBUG', None) == 'True'
 
 # Allowed hosts (empty means only localhost is allowed)
 ALLOWED_HOSTS = []
