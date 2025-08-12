@@ -62,10 +62,18 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D73D0BA8F692406E9AA34F6F0432E96D }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_AAF2E2D25B7C4A80B665B7308B9FBD07 }}
 
+      - name: Collect static
+        run: python manage.py collectstatic --noinput
+        env:
+          DJANGO_SETTINGS_MODULE: plantparent.settings
+          SECRET_KEY: dummy-secret
+          DEBUG: "False"
+      
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'PlantParent'
           slot-name: 'Production'
+
           
