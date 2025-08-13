@@ -1,6 +1,8 @@
 # 🪴 PlantParent
 PlantParent is a platform for plant lovers. Users can browse and purchase plants, read helpful articles on care and maintenance, rate products and content, etc.
 
+# [🌿 Live Demo](https://plantparent-buexaefjfkhvfgey.italynorth-01.azurewebsites.net/)
+
 ## 🛠️ Technologies Used
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Backend**: Python, Django, Django REST
